@@ -1,0 +1,12 @@
+fastapi
+fastapi-pagination
+
+uvicorn[standard]
+
+PyGithub
+
+jinja2
+
+redis
+
+ipdb  # debugging
