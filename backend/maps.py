@@ -7,7 +7,13 @@ COUNTRY = 2
 CHAR = {
     SEA: "~",
     LAND: "#",
-    COUNTRY: "x",
+    3: "3",
+    4: "4",
+    5: "5",
+    6: "6",
+    7: "7",
+    8: "8",
+    9: "9",
 }
 
 class HexGrid:
@@ -48,11 +54,11 @@ class HexGrid:
                     painted = True
                     self.grid[currx][curry] = LAND
 
-    def grow_chunk2(self, num):
-        startx = int(self.rows / 2)
-        starty = int(self.cols / 2)
+    def grow_chunk2(self, terrain_type, num):
+        startx = random.randint(1, self.rows)
+        starty = random.randint(2, self.cols)
 
-        self.grid[startx][starty] = 1
+        self.grid[startx][starty] = terrain_type
 
         currx = startx
         curry = starty
@@ -68,11 +74,11 @@ class HexGrid:
                 if currx < 0 or curry < 0 or currx >= self.rows-1 or curry >= self.cols-1:
                     continue
 
-                if self.grid[currx][curry] == LAND:
+                if self.grid[currx][curry] == terrain_type:
                     continue
 
                 if self.grid[currx][curry] == SEA:
-                    self.grid[currx][curry] = LAND
+                    self.grid[currx][curry] = terrain_type
                     break
 
 
@@ -107,15 +113,26 @@ class HexGrid:
         painted = 0
         for direction in range(1, 7):
             neighbor_x, neighbor_y = self.get_neighbor(x, y, direction)
+
+            if self.out_of_bounds(neighbor_x, neighbor_y):
+                continue 
+
             if self.grid[neighbor_x][neighbor_y] == LAND:
                 painted += 1
 
         return painted == 6
 
+    def out_of_bounds(self, x, y):
+        try:
+            self.grid[x][y]
+            return False
+        except IndexError:
+            return True
+        
     def print(self):
         for i in range(self.rows):
             delimiter = " " if i%2 == 0 else ""
-            row = ' '.join([CHAR[b] for x in self.grid[i]])
+            row = ' '.join([str(x) for x in self.grid[i]])
             print(f"{delimiter}{row}")
                 
     def print2(self):
@@ -125,7 +142,7 @@ class HexGrid:
                 row.append(self.grid[x][y])
             
             delimiter = " " if y%2 == 0 else ""
-            rowstr = ' '.join([CHAR[b] for b in row])
+            rowstr = ' '.join([str(b) for b in row])
             print(f"{delimiter}{rowstr}")
                     
 

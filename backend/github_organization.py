@@ -102,11 +102,11 @@ def load_data():
     else:
         repositories = g.search_repositories(query="topic:tag-production")
 
-        for repo in repositories[:1]:  # remove slicing!!!
+        for repo in repositories:  # remove slicing!!!
             # special handling for sentry repo
-            if repo.full_name == "getsentry/sentry":
-                repos += handle_sentry_repo(repo)
-                continue
+            # if repo.full_name == "getsentry/sentry":
+            #     repos += handle_sentry_repo(repo)
+            #     continue
 
             # get authors of repository
             commits = [x for x in repo.get_commits(since=NOW - THIRTY_DAYS)]

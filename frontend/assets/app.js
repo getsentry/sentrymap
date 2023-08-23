@@ -3,12 +3,24 @@ const tileHeight = 96;
 
 const tileIdToBiom = {
     0: 1,
-    1: 1,
+    1: 2,
+    2: 3,
+    3: 4,
+    4: 5,
+    5: 6,
+    6: 7,
+    7: 8,
 }
 
 const tileIdToTileset = {
-    0: "tileset_sand",
-    1: "tileset_tropical",
+    0: "tileset_mixed",
+    1: "tileset_mixed",
+    2: "tileset_mixed",
+    3: "tileset_mixed",
+    4: "tileset_mixed",
+    5: "tileset_mixed",
+    6: "tileset_mixed",
+    7: "tileset_mixed",
 }
 
 
