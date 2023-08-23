@@ -131,7 +131,7 @@ class HexGrid:
 
 def main():
     grid = HexGrid()
-    grid.grow_chunk2(25)
+    grid.grow_chunk2(60)
     # grid.add_country(10)
     print("===============================")
     grid.print2()
