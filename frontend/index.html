@@ -14,39 +14,100 @@ class Example extends Phaser.Scene
     preload ()
     {
         this.load.image('tiles', 'assets/tileset.png');
-        this.load.tilemapTiledJSON('map', 'assets/hexagonal.json');
+        // this.load.image('tiles', 'assets/tiles-a.png');
+        // this.load.tilemapTiledJSON('map', 'assets/hexagonal.json');
     }
 
     create ()
     {
-        const map = this.add.tilemap('map');
+        // const map = this.add.tilemap('map');
 
-        const tileset = map.addTilesetImage('tileset', 'tiles');
+        const array=[
+            [0, 1, 2, 3],
+            [0, 1, 2, 3],
+            [0, 1, 2, 3],
+        ];
 
+        // const array=[0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3];
+        const map = this.make.tilemap({ 
+            // "data":array, 
+            "layers":[{
+                "id":1,
+                "name":"Layer 1",
+                "data": array,
+                "width":4,
+                "height":3,
+                "opacity":1,
+                "type":"tilelayer",
+                "visible":true,
+                "x":0,
+                "y":0
+            }],
+            "infinite":false,
+            "compressionlevel":-1,
+            "nextobjectid":1,
+            "nextlayerid":2,
+            "orientation":"hexagonal",
+            "hexsidelength":16,
+            "renderorder":"right-down",
+            "staggeraxis":"y",
+            "staggerindex":"odd",
+            "tiledversion":"1.4.2",
+            "tilewidth":32,
+            "tileheight":34,
+            "tilesets":[
+            {
+            "columns":13,
+            "firstgid":1,
+            // "image":"C:\/Users\/rdave\/Downloads\/svipal.github.io-master\/svipal.github.io-master\/assets\/tilesets\/tileset.png",
+            "imageheight":34,
+            "imagewidth":416,
+            "margin":0,
+            "name":"tileset",
+            "spacing":0,
+            "tilecount":13,
+            "tileheight":34,
+            "tilewidth":32,
+            "transparentcolor":"#ffffff"
+            }],
+            "type":"map",
+            "version":1.4,
+            "height":9,
+            "width":14
+        });
+
+        // From dummy example
+        // map.addTilesetImage("tiles");
+        // const layer = map.createLayer(0, "tiles", 0, 0);
+
+        // From phaser example.
+        const tileset = map.addTilesetImage("tileset", "tiles");
         map.createLayer('Layer 1', tileset);
 
-        const cursors = this.input.keyboard.createCursorKeys();
 
-        this.cameras.main.setZoom(2);
-        this.cameras.main.centerOn(200, 100);
+        // CONTROLS
+        // const cursors = this.input.keyboard.createCursorKeys();
 
-        const controlConfig = {
-            camera: this.cameras.main,
-            left: cursors.left,
-            right: cursors.right,
-            up: cursors.up,
-            down: cursors.down,
-            acceleration: 0.02,
-            drag: 0.0005,
-            maxSpeed: 0.7
-        };
+        // this.cameras.main.setZoom(2);
+        // this.cameras.main.centerOn(200, 100);
 
-        this.controls = new Phaser.Cameras.Controls.SmoothedKeyControl(controlConfig);
+        // const controlConfig = {
+        //     camera: this.cameras.main,
+        //     left: cursors.left,
+        //     right: cursors.right,
+        //     up: cursors.up,
+        //     down: cursors.down,
+        //     acceleration: 0.02,
+        //     drag: 0.0005,
+        //     maxSpeed: 0.7
+        // };
+
+        // this.controls = new Phaser.Cameras.Controls.SmoothedKeyControl(controlConfig);
     }
 
     update (time, delta)
     {
-        this.controls.update(delta);
+        // this.controls.update(delta);
     }
 }
 
