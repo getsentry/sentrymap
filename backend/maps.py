@@ -17,8 +17,6 @@ CHAR = {
 }
 
 class HexGrid:
-    grid = []
-
     NE = 1
     E = 2
     SE = 3
@@ -30,6 +28,7 @@ class HexGrid:
         self.rows = rows
         self.cols = cols
 
+        self.grid = []
         for _ in range(rows):
             self.grid.append([0] * cols)
 
@@ -55,8 +54,8 @@ class HexGrid:
                     self.grid[currx][curry] = LAND
 
     def grow_chunk2(self, terrain_type, num):
-        startx = random.randint(1, self.rows)
-        starty = random.randint(2, self.cols)
+        startx = random.randint(3, self.rows-3)
+        starty = random.randint(3, self.cols-3)
 
         self.grid[startx][starty] = terrain_type
 

@@ -27,16 +27,6 @@ app.add_middleware(
 
 templates = Jinja2Templates(directory="templates")
 
-
-countries = {
-    "sentry": ["sentry", "getsentry"], 
-    "docs": ["sentry-docs", "develop"], 
-    "ingest": ["relay"], 
-    "sdks": ["sentry-android-gradle-plugin", "sentry-cocoa", "sentry-cordova", "sentry-dart", "sentry-dotnet", "sentry-electron", "sentry-elixir", "sentry-go", "sentry-java", "sentry-javascript", "sentry-javascript-bundler-plugins", "sentry-kotlin-multiplatform", "sentry-laravel", "sentry-maven-plugin", "sentry-php", "sentry-php-sdk", "sentry-python", "sentry-react-native", "sentry-ruby", "sentry-symfony", "sentry-unity", "sentry-unreal", "sentry-xamarin", ],
-    "processing": ["symbolic", "symbolicator", "sentry-cli", "rust-sourcemap", "watto", "js-source-scopes"],
-
-}
-
 repo_to_country = {
     "sentry": "sentry", 
     "getsentry": "sentry",
