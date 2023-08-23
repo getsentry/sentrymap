@@ -5,44 +5,49 @@
     <style>
         body {
             margin: 0;
+            background-color: #444;
         }
         canvas {
             display: block; 
             margin:0 auto; 
         }        
     </style>
-    <script src="assets/app.js"></script>
+    <script src="assets/app.js?123"></script>
     <script type="text/javascript">
         const main = function() {
-
             window.stuff = {};
 
-            var tileset = new Image();
-            tileset.src = "assets/tileset.png";
-            window.stuff["tileset"] = tileset;
+            var tileset1 = new Image();
+            tileset1.src = "assets/tilesets_a/tropical.png";
+            window.stuff["tileset_tropical"] = tileset1;
+
+            var tileset2 = new Image();
+            tileset2.src = "assets/tilesets_a/sand.png";
+            window.stuff["tileset_sand"] = tileset2;
 
             // Create Canvas
             var canvas = document.createElement('canvas');
             canvas.id = "map";
-            canvas.width = 1024;
-            canvas.height = 768;
+            canvas.width = 1920;
+            canvas.height = 1080;
             canvas.style.zIndex = 8;
-            canvas.style.border = "1px solid";
+            // canvas.style.border = "1px solid";
 
             // Put canvas on page
             var body = document.getElementsByTagName("body")[0];
             body.appendChild(canvas);
 
-            // Draw Tilemap
-            const data = [
-                [1, 2, 3, 4],
-                [4, 5, 6, 7],
-                [1, 1, 6, 4],
-                [2, 1, 3, 4],
-                
-            ];
-            drawTileMap(data);
+            
+            // Fetch map data from server
+            let url = 'http://localhost:8000/';
 
+            fetch(url)
+                .then(res => res.json())
+                .then(content => {
+                    // Draw Tilemap
+                    drawTileMap(content.grid);
+                })
+                .catch(err => { throw err });
         };
     </script>    
 </head>
