@@ -52,3 +52,28 @@ function drawTileMap(data) {
         }
     }
 }
+
+
+function drawLabel(mapId, text, x, y){
+    var ctx = document.getElementById(mapId).getContext('2d');
+    ctx.fillStyle = "white";
+    ctx.font = "bold 16px Arial";
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+
+    let offsetX = 0;
+    if(x%2 != 0){
+        offsetX = tileWidth/2;
+    }
+    let offsetY = -y/2*tileHeight;
+
+    ctx.fillText(text,offsetX + (x)*tileWidth, offsetY + (y)*tileHeight);
+}
+
+
+function drawLables(labels) {
+    for (let i = 0; i < labels.length; i++) {
+        let label = labels[i];
+        drawLabel("map", label.text, label.y, label.x);
+    }
+}

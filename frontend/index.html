@@ -50,6 +50,8 @@
                 .then(content => {
                     // Draw Tilemap
                     drawTileMap(content.grid);
+
+                    drawLables(content.labels);
                 })
                 .catch(err => { throw err });
         };

@@ -1,6 +1,7 @@
 import datetime
 import json
 import os
+import time
 
 import redis
 
@@ -9,7 +10,7 @@ from github import Auth
 
 
 NOW = datetime.datetime.utcnow()
-THIRTY_DAYS = datetime.timedelta(seconds=60 * 60 * 24 * 5)  # TODO: set to 30 days!!!
+THIRTY_DAYS = datetime.timedelta(seconds=60 * 60 * 24 * 30)
 
 
 def handle_sentry_repo(repo):
@@ -94,7 +95,6 @@ def load_data():
     g = Github(auth=auth)
     repos = []
 
-    # r.delete("repositories")
     repositories = r.get("repositories")
 
     if repositories:
@@ -102,7 +102,7 @@ def load_data():
     else:
         repositories = g.search_repositories(query="topic:tag-production")
 
-        for repo in repositories:  # remove slicing!!!
+        for repo in repositories: 
             # special handling for sentry repo
             # if repo.full_name == "getsentry/sentry":
             #     repos += handle_sentry_repo(repo)
@@ -135,6 +135,7 @@ def load_data():
                     "authors": authors,
                 }
             )
+            time.sleep(1)
 
         r.set("repositories", json.dumps(repos))
 

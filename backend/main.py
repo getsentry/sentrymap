@@ -5,6 +5,7 @@ from fastapi.templating import Jinja2Templates
 from fastapi.middleware.cors import CORSMiddleware
 
 from github_organization import load_data
+from utils import normalize_countries
 
 import redis
 
@@ -64,6 +65,21 @@ repo_to_country = {
     "js-source-scopes": "processing",
 }
 
+country_names = {
+    "sentry": "The United States of Sentry",
+    "docs": "Docstopia",
+    "ingest": "Ingestistan",
+    "sdks": "SDKSSR",
+    "processing": "Processia",
+}
+
+
+@app.get("/clear-cache")
+async def home(request: Request):
+    r = redis.Redis(host="localhost", port=6379, decode_responses=True)
+    r.delete("repositories")
+    return {"status": "ok"}
+
 
 @app.get("/")
 async def home(request: Request):
@@ -92,15 +108,21 @@ async def home(request: Request):
     from pprint import pprint
     pprint(countries)
 
+    countries = normalize_countries(countries, 1, 30)    
+    pprint(countries)
+
     from maps import HexGrid
     grid = HexGrid(21, 29) 
 
+    labels = []
     for i, key in enumerate(countries.keys()):
-        grid.grow_chunk2(i+1, countries[key]["size"])
+        chunk_x, chunk_y = grid.grow_chunk2(i+1, countries[key]["size"])
+        labels.append({"text": country_names[key], "x": chunk_x, "y": chunk_y})
 
     grid.print2()
     return {
         "grid": grid.grid,
+        "labels": labels,
     }
 
 load_data()

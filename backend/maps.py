@@ -32,13 +32,16 @@ class HexGrid:
         for _ in range(rows):
             self.grid.append([0] * cols)
 
-    def grow_chunk1(self, num):
-        startx = int(self.rows / 2)
-        starty = int(self.cols / 2)
+    def grow_chunk1(self, terrain_type, num):
+        startx = random.randint(3, self.rows-3)
+        starty = random.randint(3, self.cols-3)
+
+        retx = startx
+        rety = starty
 
         currx = startx
         curry = starty
-        self.grid[currx][curry] = 1
+        self.grid[currx][curry] = terrain_type
 
         for i in range(num-1):
             painted = False
@@ -51,34 +54,55 @@ class HexGrid:
 
                 if self.grid[currx][curry] == SEA:
                     painted = True
-                    self.grid[currx][curry] = LAND
+                    self.grid[currx][curry] = terrain_type
+
+        
+        return retx, rety
 
     def grow_chunk2(self, terrain_type, num):
         startx = random.randint(3, self.rows-3)
         starty = random.randint(3, self.cols-3)
+
+        retx = startx
+        rety = starty
 
         self.grid[startx][starty] = terrain_type
 
         currx = startx
         curry = starty
 
-        for i in range(0, num+1):           
-            # calculate painted neigbors
+        breaking = 0
+        i = 0
+        while i < num:
             if self.all_neighbors_painted(startx, starty):
-                startx, starty = self.get_random_neighbor(startx, starty)
+                # startx, starty = self.get_random_neighbor(startx, starty)
+                startx, starty = currx, curry
 
             for direction in range(1, 7):
                 currx, curry = self.get_neighbor(startx, starty, direction)
 
                 if currx < 0 or curry < 0 or currx >= self.rows-1 or curry >= self.cols-1:
+                    breaking += 1
                     continue
 
                 if self.grid[currx][curry] == terrain_type:
+                    breaking += 1
                     continue
 
                 if self.grid[currx][curry] == SEA:
+                    i += 1
                     self.grid[currx][curry] = terrain_type
                     break
+
+            if direction == 6:
+                startx, starty = self.get_random_neighbor(startx, starty)
+
+
+            if breaking > 1000:
+                break
+
+        print(f"Chunks drawn {i} of {num}")
+        return retx, rety
 
 
     def get_neighbor(self, x, y, direction):
