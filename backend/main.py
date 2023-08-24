@@ -69,7 +69,7 @@ country_names = {
     "sentry": "The United States of Sentry",
     "docs": "Docstopia",
     "ingest": "Ingestistan",
-    "sdks": "SDKSSR",
+    "sdks": "SDKingdom",
     "processing": "Processia",
 }
 
@@ -91,6 +91,7 @@ async def home(request: Request):
     if repositories:
         repos = json.loads(repositories)
 
+    # Get all country information
     country_info = {}
     country_known_residents = {}
 
@@ -111,6 +112,7 @@ async def home(request: Request):
         if country not in country_known_residents.keys():
             country_known_residents[country] = set()
 
+        # Add residents to country
         unique_authors = []
         for author in repo["authors"]:
             if author["login"] not in country_known_residents[country]:
@@ -127,25 +129,31 @@ async def home(request: Request):
             country_info[country]["residents"] += unique_authors
             country_info[country]["provinces"].add(repo["name"])
 
+    # Sort residents and provinces
+    for country in country_info.keys():
+        country_info[country]["residents"] = sorted(country_info[country]["residents"], key=lambda x: x.get("name") or x.get("login"))
+        country_info[country]["provinces"] = sorted(country_info[country]["provinces"], key=lambda x: x.lower())
+
+    # Normalize country sizes
+    countries = normalize_countries(countries, 1, 30)    
     from pprint import pprint
     pprint(countries)
 
-    countries = normalize_countries(countries, 1, 30)    
-    pprint(countries)
-
+    # Generate grid and labels to draw the map
     from maps import HexGrid
     grid = HexGrid(21, 29) 
-
     labels = []
     for i, key in enumerate(countries.keys()):
         chunk_x, chunk_y = grid.grow_chunk2(i+1, countries[key]["size"])
         labels.append({"text": country_names[key], "x": chunk_x, "y": chunk_y})
 
     grid.print2()
+
     return {
         "grid": grid.grid,
         "labels": labels,
         "country_info": country_info,
     }
 
+# When app starts, load data from Github.
 load_data()

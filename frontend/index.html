@@ -6,13 +6,14 @@
         body {
             margin: 0;
             background-color: #333;
+            color: #fff;
         }
         canvas {
             display: block; 
             margin:0 auto; 
         }        
     </style>
-    <script src="assets/app.js?123"></script>
+    <script src="assets/app.js?2"></script>
     <script type="text/javascript">
         const main = function() {
             window.stuff = {};
@@ -35,13 +36,11 @@
             canvas.width = 1920;
             canvas.height = 1080;
             canvas.style.zIndex = 8;
-            // canvas.style.border = "1px solid";
 
             // Put canvas on page
-            var body = document.getElementsByTagName("body")[0];
+            var body = document.getElementById("mapArea");
             body.appendChild(canvas);
 
-            
             // Fetch map data from server
             let url = 'http://localhost:8000/';
 
@@ -52,18 +51,20 @@
                     drawTileMap(content.grid);
 
                     drawLables(content.labels);
+
+                    printCountryInfo(content.country_info);
                 })
                 .catch(err => { throw err });
         };
     </script>    
 </head>
 <body>
-
-
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-  main()
-});
-</script>
+    <div id="mapArea"></div>
+    <div id="countryInfoArea"></div>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+    main()
+    });
+    </script>
 </body>
 </html>

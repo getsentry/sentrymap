@@ -77,3 +77,28 @@ function drawLables(labels) {
         drawLabel("map", label.text, label.y, label.x);
     }
 }
+
+
+function printCountryInfo(countries) {
+    var area = document.getElementById("countryInfoArea");
+    for (let key in countries) {
+        area.insertAdjacentHTML('beforeend', `<h1>${countries[key].name}</h1>`);
+        area.insertAdjacentHTML('beforeend', `<h2>Provinces</h2>`);
+        for(let i=0; i<countries[key].provinces.length; i++){
+            area.insertAdjacentHTML('beforeend', `${countries[key].provinces[i]}`);
+            if(i < countries[key].provinces.length-1) {
+                area.insertAdjacentHTML('beforeend', `, `);
+            }
+        }
+
+        area.insertAdjacentHTML('beforeend', `<h2>Residents (and visitors)</h2>`);
+        for(let i=0; i<countries[key].residents.length; i++){
+            let resident = countries[key].residents[i]
+            area.insertAdjacentHTML('beforeend', `<a href="${resident.url}">${resident.name}</a>`);
+
+            if(i < countries[key].residents.length-1) {
+                area.insertAdjacentHTML('beforeend', `, `);
+            }
+        }
+    }
+}
