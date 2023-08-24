@@ -1,4 +1,4 @@
-const tileWidth = 55;
+const tileWidth = 64;
 const tileHeight = 64;
 
 const tileIdToBiom = {
@@ -54,6 +54,28 @@ function drawTileMap(data) {
     }
 }
 
+function drawTileMapFlatTop(data) {
+    marginX = tileWidth/4;
+
+    for (let row = 0; row < data.length; row++) {
+        var oneRow = data[row];
+        let offsetX = 0.75;
+        for (let col = 0; col < oneRow.length; col++) {
+            let offsetY=0;
+            if(col%2 != 0){
+                offsetY = tileWidth*0.45;
+            }
+
+            let tileId = oneRow[col];
+
+            drawTile("map", tileIdToTileset[tileId], tileIdToBiom[tileId], 
+                marginX + col*0.75*tileWidth, 
+                offsetY + row*0.86*tileHeight
+            );
+        }
+    }
+}
+
 
 function drawLabel(mapId, text, x, y){
     var ctx = document.getElementById(mapId).getContext('2d');
@@ -62,13 +84,7 @@ function drawLabel(mapId, text, x, y){
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
 
-    let offsetX = 0;
-    if(x%2 != 0){
-        offsetX = tileWidth/2;
-    }
-    let offsetY = -y/2*tileHeight/2;
-
-    ctx.fillText(text,offsetX + (x)*tileWidth, offsetY + (y)*tileHeight);
+    ctx.fillText(text, x*0.8*tileWidth, y*0.9*tileHeight);
 }
 
 
