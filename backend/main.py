@@ -141,7 +141,7 @@ async def home(request: Request):
 
     # Generate grid and labels to draw the map
     from maps import HexGrid
-    grid = HexGrid(21, 29) 
+    grid = HexGrid(19, 39) 
     labels = []
     for i, key in enumerate(countries.keys()):
         chunk_x, chunk_y = grid.grow_chunk2(i+1, countries[key]["size"])

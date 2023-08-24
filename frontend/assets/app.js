@@ -56,6 +56,7 @@ function drawTileMap(data) {
 
 function drawTileMapFlatTop(data) {
     marginX = tileWidth/4;
+    marginY = -5;
 
     for (let row = 0; row < data.length; row++) {
         var oneRow = data[row];
@@ -70,7 +71,7 @@ function drawTileMapFlatTop(data) {
 
             drawTile("map", tileIdToTileset[tileId], tileIdToBiom[tileId], 
                 marginX + col*0.75*tileWidth, 
-                offsetY + row*0.86*tileHeight
+                marginY + offsetY + row*0.86*tileHeight
             );
         }
     }
