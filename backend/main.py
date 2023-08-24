@@ -1,4 +1,5 @@
 import json
+import random
 
 from fastapi import FastAPI, Request
 from fastapi.templating import Jinja2Templates
@@ -184,6 +185,17 @@ async def home(request: Request):
             grid.grid[points_in_land[3][0]][points_in_land[3][1]] = DECOR.HORSE
         elif countries[key]["name"] == "sdks":
             pass
+
+        if i == 0:
+            THINGS_TO_DRAW = [
+                DECOR.MONSTER, DECOR.ISLAND, DECOR.WRECK, DECOR.BOAT_SMALL, DECOR.BOAT_TILE
+            ]
+            for j in range(0, 5):
+                while True:
+                    x, y = random.randint(0, grid.rows-1), random.randint(0, grid.cols-1)
+                    if grid.grid[x][y] == 0:
+                        grid.grid[x][y] = THINGS_TO_DRAW[j]
+                        break
 
         labels.append({"text": country_names[key], "x": points_in_land[0][0], "y": points_in_land[0][1]})
 
