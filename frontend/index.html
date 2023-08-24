@@ -18,17 +18,9 @@
         const main = function() {
             window.stuff = {};
 
-            var tileset1 = new Image();
-            tileset1.src = "assets/tilesets_a/tropical.png";
-            window.stuff["tileset_tropical"] = tileset1;
-
-            var tileset2 = new Image();
-            tileset2.src = "assets/tilesets_a/sand.png";
-            window.stuff["tileset_sand"] = tileset2;
-
-            var tileset3 = new Image();
-            tileset3.src = "assets/tilesets_a/mixed.png";
-            window.stuff["tileset_mixed"] = tileset3;
+            var tileset = new Image();
+            tileset.src = "assets/tilesets_c/mixed.png";
+            window.stuff["tileset_mixed"] = tileset;
 
             // Create Canvas
             var canvas = document.createElement('canvas');

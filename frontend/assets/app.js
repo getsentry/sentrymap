@@ -1,13 +1,13 @@
-const tileWidth = 64;
-const tileHeight = 96;
+const tileWidth = 55;
+const tileHeight = 64;
 
 const tileIdToBiom = {
-    0: 1,
-    1: 2,
-    2: 3,
-    3: 4,
-    4: 5,
-    5: 6,
+    0: 1, // Sea
+    1: 2, // Sentry
+    2: 6, // SDK
+    3: 5, // Processing 
+    4: 4, // Docs
+    5: 3, // Ingest
     6: 7,
     7: 8,
 }
@@ -46,8 +46,9 @@ function drawTileMap(data) {
             offsetX = tileWidth/2;
         }
         for (let col = 0; col < oneRow.length; col++) {
-            let offsetY = -row/2*tileHeight;
+            let offsetY = -row/2*tileHeight/2;
             let tileId = oneRow[col];
+
             drawTile("map", tileIdToTileset[tileId], tileIdToBiom[tileId], marginX + offsetX + (col)*tileWidth, offsetY + (row)*tileHeight);
         }
     }
@@ -65,7 +66,7 @@ function drawLabel(mapId, text, x, y){
     if(x%2 != 0){
         offsetX = tileWidth/2;
     }
-    let offsetY = -y/2*tileHeight;
+    let offsetY = -y/2*tileHeight/2;
 
     ctx.fillText(text,offsetX + (x)*tileWidth, offsetY + (y)*tileHeight);
 }
