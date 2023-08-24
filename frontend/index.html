@@ -3,17 +3,70 @@
 <html>
 <head>
     <style>
+        @font-face {
+            font-family: 'VT323';
+            src: url('assets/VT323-Regular.ttf');
+        }
+        html {
+            font-size: 20px;
+        }    
         body {
             margin: 0;
-            background-color: #333;
+            font-family: 'VT323', monospace;
+            text-shadow: 0.1em 0.1em #333;
+            background-color: #64b5f6;
             color: #fff;
+        }
+        #header{
+            text-align: center;
+            margin: 2rem 0 2rem 0;
         }
         canvas {
             display: block; 
             margin:0 auto; 
-        }        
+        }
+        h1 {
+            font-size: 3rem;
+            margin: 0;
+        }
+        h2 {
+            font-size: 2rem;
+            margin: 0;
+        }
+        h3 {
+            font-size: 1.5rem;
+            margin: 0;
+        }
+        a, a:visited, a:active {
+            color: #FF9800;
+        }
+        #countryInfoArea {
+            margin: 1rem 0 0 0;
+            max-width: 80ch;
+            margin: 0 auto;
+        }
+        #countryInfoArea h2 {
+            margin: 1rem 0 0.3rem 0;
+        }
+        #countryInfoArea h3 {
+            margin: 1rem 0 0.3rem 0;
+        }
+        #countryInfoArea a {
+            text-decoration: none;
+        }
+        #countryInfoArea p {
+            text-align: center;
+            margin: 2rem 0;
+        }     
+        #countryInfoArea a:active, #countryInfoArea a:hover {
+            text-decoration: underline;
+        }
+        #footer {
+            max-width: 80ch;
+            margin: 1rem auto;
+        }
     </style>
-    <script src="assets/app.js?2"></script>
+    <script src="assets/app.js?7"></script>
     <script type="text/javascript">
         const main = function() {
             window.stuff = {};
@@ -21,6 +74,10 @@
             var tileset = new Image();
             tileset.src = "assets/tilesets_b/mixed.png";
             window.stuff["tileset_mixed"] = tileset;
+
+            var tileset2 = new Image();
+            tileset2.src = "assets/tilesets_b/decor.png";
+            window.stuff["tileset_decor"] = tileset2;
 
             // Create Canvas
             var canvas = document.createElement('canvas');
@@ -39,11 +96,8 @@
             fetch(url)
                 .then(res => res.json())
                 .then(content => {
-                    // Draw Tilemap
                     drawTileMapFlatTop(content.grid);
-
                     drawLables(content.labels);
-
                     printCountryInfo(content.country_info);
                 })
                 .catch(err => { throw err });
@@ -51,8 +105,16 @@
     </script>    
 </head>
 <body>
+    <div id="header">
+        <h1>The World</h1>
+        <span>According to Sentry</span>
+    </div>
     <div id="mapArea"></div>
     <div id="countryInfoArea"></div>
+    <div id="footer">
+        Sentry Hackweek 2023 &bull; <a href="https://github.com/antonpirker" target="_blank">Anton Pirker</a>
+    </div>
+    
     <script>
     document.addEventListener("DOMContentLoaded", function() {
     main()

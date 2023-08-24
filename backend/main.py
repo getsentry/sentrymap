@@ -73,6 +73,29 @@ country_names = {
     "processing": "Processia",
 }
 
+class DECOR:
+    CASTLE = -1
+    MOUNTAIN = -2
+    PYRAMIDE = -3
+    PORTAL = -4 
+    SPRING = -5
+    CASTLE2 = -6
+    HORSE = -7
+    MONSTER = -8
+    TREAURE = -9
+    ISLAND = -10
+    WRECK = -11
+    BOAT_SMALL = -12
+    BOAT_TILE_3 = -13
+    BOAT_TILE = -14
+  
+START_TILE = {
+    "sentry": DECOR.CASTLE,
+    "docs": DECOR.HORSE,
+    "ingest": DECOR.PYRAMIDE,
+    "sdks": DECOR.MOUNTAIN,
+    "processing": DECOR.PORTAL,
+}
 
 @app.get("/clear-cache")
 async def home(request: Request):
@@ -135,7 +158,7 @@ async def home(request: Request):
         country_info[country]["provinces"] = sorted(country_info[country]["provinces"], key=lambda x: x.lower())
 
     # Normalize country sizes
-    countries = normalize_countries(countries, 1, 30)    
+    countries = normalize_countries(countries, 1, 40)    
     from pprint import pprint
     pprint(countries)
 
@@ -144,8 +167,12 @@ async def home(request: Request):
     grid = HexGrid(19, 39) 
     labels = []
     for i, key in enumerate(countries.keys()):
-        chunk_x, chunk_y = grid.grow_chunk2(i+1, countries[key]["size"])
-        labels.append({"text": country_names[key], "x": chunk_x, "y": chunk_y})
+        points_in_land = grid.grow_chunk2(i+1, countries[key]["size"])
+
+        start_point = points_in_land[0]
+        grid.grid[start_point[0]][start_point[1]] = START_TILE[key]
+
+        labels.append({"text": country_names[key], "x": points_in_land[0][0], "y": points_in_land[0][1]})
 
     grid.print2()
 

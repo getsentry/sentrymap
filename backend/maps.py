@@ -63,8 +63,7 @@ class HexGrid:
         startx = random.randint(3, self.rows-3)
         starty = random.randint(3, self.cols-3)
 
-        retx = startx
-        rety = starty
+        ret = [(startx, starty)]
 
         self.grid[startx][starty] = terrain_type
 
@@ -92,17 +91,20 @@ class HexGrid:
                 if self.grid[currx][curry] == SEA:
                     i += 1
                     self.grid[currx][curry] = terrain_type
+
+                    if random.random() < 0.3 and len(ret) < 5:
+                        ret.append((currx, curry))
+
                     break
 
             if direction == 6:
                 startx, starty = self.get_random_neighbor(startx, starty)
 
-
             if breaking > 1000:
                 break
 
         print(f"Chunks drawn {i} of {num}")
-        return retx, rety
+        return ret
 
 
     def get_neighbor(self, x, y, direction):
