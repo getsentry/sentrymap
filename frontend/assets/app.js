@@ -111,9 +111,12 @@ function drawTileMapFlatTop(data) {
 function drawLabel(mapId, text, x, y){
     var ctx = document.getElementById(mapId).getContext('2d');
     ctx.fillStyle = "white";
-    ctx.font = "bold 16px Arial";
+    ctx.font = "35px VT323";
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
+    ctx.shadowOffsetX = 3;
+    ctx.shadowOffsetY = 3;
+    ctx.shadowColor = "rgba(0,0,0,0.6)";
 
     ctx.fillText(text, x*0.75*tileWidth, y*0.83*tileHeight);
 }
