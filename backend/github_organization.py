@@ -111,7 +111,7 @@ def load_data():
             # get authors of repository
             commits = [x for x in repo.get_commits(since=NOW - THIRTY_DAYS)]
 
-            known_authors = set()
+            known_authors = set(["getsentry-bot", "dependabot[bot]", "getsantry[bot]", "github-actions[bot]"])
             authors = []
             for commit in commits:
                 if hasattr(commit, "author") and commit.author is not None:
@@ -121,7 +121,7 @@ def load_data():
                             {
                                 "name": commit.author.name,
                                 "login": commit.author.login,
-                                "url": commit.author.url,
+                                "url": commit.author.html_url,
                             }
                         )
 

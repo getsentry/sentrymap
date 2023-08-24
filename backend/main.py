@@ -91,6 +91,9 @@ async def home(request: Request):
     if repositories:
         repos = json.loads(repositories)
 
+    country_info = {}
+    country_known_residents = {}
+
     countries = {}
     for repo in repos:
         country = repo_to_country.get(repo["name"])
@@ -104,6 +107,25 @@ async def home(request: Request):
             }
         else:
             countries[country]["size"] += len(repo["authors"])
+
+        if country not in country_known_residents.keys():
+            country_known_residents[country] = set()
+
+        unique_authors = []
+        for author in repo["authors"]:
+            if author["login"] not in country_known_residents[country]:
+                country_known_residents[country].add(author["login"])
+                unique_authors.append(author)
+
+        if country not in country_info.keys():
+            country_info[country] = {
+                "name": country_names[country],
+                "residents": unique_authors,
+                "provinces": set([repo["name"], ]),
+            }
+        else:
+            country_info[country]["residents"] += unique_authors
+            country_info[country]["provinces"].add(repo["name"])
 
     from pprint import pprint
     pprint(countries)
@@ -123,6 +145,7 @@ async def home(request: Request):
     return {
         "grid": grid.grid,
         "labels": labels,
+        "country_info": country_info,
     }
 
 load_data()
