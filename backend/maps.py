@@ -74,7 +74,6 @@ class HexGrid:
         i = 0
         while i < num:
             if self.all_neighbors_painted(startx, starty):
-                # startx, starty = self.get_random_neighbor(startx, starty)
                 startx, starty = currx, curry
 
             for direction in range(1, 7):

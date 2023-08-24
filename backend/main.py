@@ -88,6 +88,7 @@ class DECOR:
     BOAT_SMALL = -12
     BOAT_TILE_3 = -13
     BOAT_TILE = -14
+    TREES = -15
   
 START_TILE = {
     "sentry": DECOR.CASTLE,
@@ -158,7 +159,7 @@ async def home(request: Request):
         country_info[country]["provinces"] = sorted(country_info[country]["provinces"], key=lambda x: x.lower())
 
     # Normalize country sizes
-    countries = normalize_countries(countries, 1, 40)    
+    countries = normalize_countries(countries, 1, 60)    
     from pprint import pprint
     pprint(countries)
 
@@ -171,6 +172,18 @@ async def home(request: Request):
 
         start_point = points_in_land[0]
         grid.grid[start_point[0]][start_point[1]] = START_TILE[key]
+
+        if countries[key]["name"] == "sentry":
+            grid.grid[points_in_land[1][0]][points_in_land[1][1]] = DECOR.SPRING
+            grid.grid[points_in_land[2][0]][points_in_land[3][1]] = DECOR.TREES
+            grid.grid[points_in_land[3][0]][points_in_land[3][1]] = DECOR.TREES
+            grid.grid[points_in_land[4][0]][points_in_land[3][1]] = DECOR.TREES
+        elif countries[key]["name"] == "docs":
+            grid.grid[points_in_land[1][0]][points_in_land[1][1]] = DECOR.HORSE
+            grid.grid[points_in_land[2][0]][points_in_land[2][1]] = DECOR.HORSE
+            grid.grid[points_in_land[3][0]][points_in_land[3][1]] = DECOR.HORSE
+        elif countries[key]["name"] == "sdks":
+            pass
 
         labels.append({"text": country_names[key], "x": points_in_land[0][0], "y": points_in_land[0][1]})
 

@@ -24,6 +24,7 @@ const tileIdToBiom = {
     "-12": 12,
     "-13": 13,
     "-14": 14,
+    "-15": 15,
 }
 
 const tileIdToTileset = {
@@ -49,6 +50,7 @@ const tileIdToTileset = {
     "-12": "tileset_decor",
     "-13": "tileset_decor",
     "-14": "tileset_decor",
+    "-15": "tileset_decor",
 }
 
 
