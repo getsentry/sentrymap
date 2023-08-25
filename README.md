@@ -4,6 +4,7 @@
 
 This is a project for Sentry Hackweek 2023 and reads data from the Sentry GitHub organization and visualizes it as a map.
 
+The presentation video for Sentry Hackweek can be found here: [https://sentry.rewatch.com/video/r4p0m90fea52sd84-the-world-according-to-sentry](https://sentry.rewatch.com/video/r4p0m90fea52sd84-the-world-according-to-sentry) (this is only visible for Sentry employees.)
 
 ## Backend
 
