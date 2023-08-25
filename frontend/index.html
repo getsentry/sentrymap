@@ -2,98 +2,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <style>
-        @font-face {
-            font-family: 'VT323';
-            src: url('assets/VT323-Regular.ttf');
-        }
-        html {
-            font-size: 20px;
-        }    
-        body {
-            margin: 0;
-            font-family: 'VT323', monospace;
-            text-shadow: 0.1em 0.1em #333;
-            background-color: #64b5f6;
-            color: #fff;
-        }
-        #header{
-            text-align: center;
-            margin: 2rem 0 2rem 0;
-        }
-        #canvasWrapper {
-            position: relative;
-        }
-        canvas#map {
-            display: block; 
-            margin: 0 auto; 
-            max-width: 1920px;
-            width: 100%;
-            z-index: 0;
-        }
-        canvas.animation {
-            position: absolute;
-            z-index: 1;
-            left: 500px;
-            top: 0px;
-        }
-        h1 {
-            font-size: 3rem;
-            margin: 0;
-        }
-        h2 {
-            font-size: 2rem;
-            margin: 0;
-        }
-        h3 {
-            font-size: 1.5rem;
-            margin: 0;
-        }
-        a, a:visited, a:active {
-            /* color: #FF9800; */
-            color: #FECE66;
-        }
-        #countryInfoArea {
-            margin: 1rem 0 0 0;
-            max-width: 80ch;
-            margin: 0 auto;
-        }
-        #countryInfoArea h2 {
-            margin: 1rem 0 0.3rem 0;
-        }
-        #countryInfoArea h3 {
-            margin: 1rem 0 0.3rem 0;
-        }
-        #countryInfoArea a {
-            text-decoration: none;
-        }
-        #countryInfoArea p {
-            text-align: center;
-            margin: 2rem 0;
-        }     
-        #countryInfoArea a:active, #countryInfoArea a:hover {
-            text-decoration: underline;
-        }
-        #footer {
-            max-width: 80ch;
-            margin: 1rem auto;
-        }
-    </style>
-    <script src="assets/app.js?10"></script>
+    <link rel="stylesheet" href="assets/styles/styles.css">
+    <script src="assets/js/app.js"></script>
     <script type="text/javascript">
         const main = function() {
             window.stuff = {};
 
+            // Load images
             var tileset = new Image();
-            tileset.src = "assets/tilesets_b/mixed.png";
+            tileset.src = "assets/tilesets/mixed.png";
             window.stuff["tileset_mixed"] = tileset;
 
             var tileset2 = new Image();
-            tileset2.src = "assets/tilesets_b/decor.png";
+            tileset2.src = "assets/tilesets/decor.png";
             window.stuff["tileset_decor"] = tileset2;
 
             var cramer = new Image();
-            cramer.src = "assets/cramer.png";
+            cramer.src = "assets/images/cramer.png";
             window.stuff["cramer"] = cramer;
 
             // Create Canvas
@@ -117,7 +42,6 @@
                     drawCramer();
                     printCountryInfo(content.country_info);
                     playAnimations(content.labels);
-
                 })
                 .catch(err => { throw err });
         };
@@ -128,18 +52,21 @@
         <h1>The World</h1>
         <span>According to Sentry</span>
     </div>
+
     <div id="mapArea">
         <div id="canvasWrapper"></div>
     </div>
+
     <div id="countryInfoArea"></div>
+    
     <div id="footer">
         Sentry Hackweek 2023 &bull; <a href="https://github.com/antonpirker" target="_blank">Anton Pirker</a>
     </div>
     
     <script>
-    document.addEventListener("DOMContentLoaded", function() {
-    main()
-    });
+        document.addEventListener("DOMContentLoaded", function() {
+            main()
+        });
     </script>
 </body>
 </html>

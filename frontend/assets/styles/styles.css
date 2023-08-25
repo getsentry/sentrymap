@@ -1,0 +1,74 @@
+@font-face {
+    font-family: 'VT323';
+    src: url('/assets/fonts/VT323-Regular.ttf');
+}
+html {
+    font-size: 20px;
+}    
+body {
+    margin: 0;
+    font-family: 'VT323', monospace;
+    text-shadow: 0.1em 0.1em #333;
+    background-color: #64b5f6;
+    color: #fff;
+}
+#header{
+    text-align: center;
+    margin: 2rem 0 2rem 0;
+}
+#canvasWrapper {
+    position: relative;
+}
+canvas#map {
+    display: block; 
+    margin: 0 auto; 
+    max-width: 1920px;
+    width: 100%;
+    z-index: 0;
+}
+canvas.animation {
+    position: absolute;
+    z-index: 1;
+    left: 500px;
+    top: 0px;
+}
+h1 {
+    font-size: 3rem;
+    margin: 0;
+}
+h2 {
+    font-size: 2rem;
+    margin: 0;
+}
+h3 {
+    font-size: 1.5rem;
+    margin: 0;
+}
+a, a:visited, a:active {
+    color: #FECE66;
+}
+#countryInfoArea {
+    margin: 1rem 0 0 0;
+    max-width: 80ch;
+    margin: 0 auto;
+}
+#countryInfoArea h2 {
+    margin: 1rem 0 0.3rem 0;
+}
+#countryInfoArea h3 {
+    margin: 1rem 0 0.3rem 0;
+}
+#countryInfoArea a {
+    text-decoration: none;
+}
+#countryInfoArea p {
+    text-align: center;
+    margin: 2rem 0;
+}     
+#countryInfoArea a:active, #countryInfoArea a:hover {
+    text-decoration: underline;
+}
+#footer {
+    max-width: 80ch;
+    margin: 1rem auto;
+}

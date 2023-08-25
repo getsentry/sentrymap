@@ -174,7 +174,7 @@ function getRandomInt(max) {
  * @param {*} lables 
  */
 function playAnimations(lables) {
-        let waitFor = getRandomInt(5) + 3;
+        let waitFor = getRandomInt(2) + 1;
         setTimeout(() => {
             var label = lables[getRandomInt(lables.length)];
             playAnimation("01", label.y*tileWidth*0.75, label.x*tileHeight*0.83, false);
