@@ -16,6 +16,10 @@ THIRTY_DAYS = datetime.timedelta(seconds=60 * 60 * 24 * 30)
 def handle_sentry_repo(repo):
     """
     Parse teams from codeowners and make each team a country.
+    
+    Note:
+    This is not yet visible on the map. It would require some kind of zooming into
+    the United States of Sentry to display this.
     """
     # Parse CODEOWNERS file
     file_content = repo.get_contents(".github/CODEOWNERS")
@@ -142,6 +146,3 @@ def load_data():
     print("DONE Loading data from GitHub...")
     return repos
 
-
-if __name__ == "__main__":
-    handle_sentry_repo(None)

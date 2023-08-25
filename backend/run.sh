@@ -10,7 +10,7 @@ source .venv/bin/activate
 # Install (or update) requirements
 pip install -r requirements.txt
 
-# Start redis server
+# Start redis server (for caching GitHub API responses)
 redis-server &
 
 # Run FastAPI application on localhost:8000

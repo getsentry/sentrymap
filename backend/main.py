@@ -5,10 +5,11 @@ from fastapi import FastAPI, Request
 from fastapi.templating import Jinja2Templates
 from fastapi.middleware.cors import CORSMiddleware
 
-from github_organization import load_data
-from utils import normalize_countries
-
 import redis
+
+from data import load_data
+from hexgrid import HexGrid
+from utils import normalize_countries
 
 
 app = FastAPI(debug=True)
@@ -29,7 +30,16 @@ app.add_middleware(
 
 templates = Jinja2Templates(directory="templates")
 
-repo_to_country = {
+
+COUNTRY_NAMES = {
+    "sentry": "The United States of Sentry",
+    "docs": "Docstopia",
+    "ingest": "Ingestistan",
+    "sdks": "SDKingdom",
+    "processing": "Processia",
+}
+
+REPO_TO_COUNTRY = {
     "sentry": "sentry", 
     "getsentry": "sentry",
     "sentry-docs": "docs", 
@@ -66,14 +76,6 @@ repo_to_country = {
     "js-source-scopes": "processing",
 }
 
-country_names = {
-    "sentry": "The United States of Sentry",
-    "docs": "Docstopia",
-    "ingest": "Ingestistan",
-    "sdks": "SDKingdom",
-    "processing": "Processia",
-}
-
 class DECOR:
     CASTLE = -1
     MOUNTAIN = -2
@@ -99,10 +101,19 @@ START_TILE = {
     "processing": DECOR.PORTAL,
 }
 
+
 @app.get("/clear-cache")
 async def home(request: Request):
     r = redis.Redis(host="localhost", port=6379, decode_responses=True)
     r.delete("repositories")
+    return {"status": "ok"}
+
+
+@app.get("/reload-data")
+async def home(request: Request):
+    r = redis.Redis(host="localhost", port=6379, decode_responses=True)
+    r.delete("repositories")
+    load_data()
     return {"status": "ok"}
 
 
@@ -122,7 +133,7 @@ async def home(request: Request):
 
     countries = {}
     for repo in repos:
-        country = repo_to_country.get(repo["name"])
+        country = REPO_TO_COUNTRY.get(repo["name"])
         if country is None:
             continue
 
@@ -146,7 +157,7 @@ async def home(request: Request):
 
         if country not in country_info.keys():
             country_info[country] = {
-                "name": country_names[country],
+                "name": COUNTRY_NAMES[country],
                 "residents": unique_authors,
                 "provinces": set([repo["name"], ]),
             }
@@ -162,14 +173,14 @@ async def home(request: Request):
     # Normalize country sizes
     countries = normalize_countries(countries, 1, 60)    
     from pprint import pprint
+    print("Countries:")
     pprint(countries)
 
     # Generate grid and labels to draw the map
-    from maps import HexGrid
     grid = HexGrid(19, 39) 
     labels = []
     for i, key in enumerate(countries.keys()):
-        points_in_land = grid.grow_chunk2(i+1, countries[key]["size"])
+        points_in_land = grid.grow_chunk(i+1, countries[key]["size"])
 
         start_point = points_in_land[0]
         grid.grid[start_point[0]][start_point[1]] = START_TILE[key]
@@ -197,9 +208,9 @@ async def home(request: Request):
                         grid.grid[x][y] = THINGS_TO_DRAW[j]
                         break
 
-        labels.append({"text": country_names[key], "x": points_in_land[0][0], "y": points_in_land[0][1]})
+        labels.append({"text": COUNTRY_NAMES[key], "x": points_in_land[0][0], "y": points_in_land[0][1]})
 
-    grid.print2()
+    grid.print()
 
     return {
         "grid": grid.grid,

@@ -2,19 +2,7 @@ import random
 
 SEA = 0
 LAND = 1
-COUNTRY = 2
 
-CHAR = {
-    SEA: "~",
-    LAND: "#",
-    3: "3",
-    4: "4",
-    5: "5",
-    6: "6",
-    7: "7",
-    8: "8",
-    9: "9",
-}
 
 class HexGrid:
     NE = 1
@@ -32,34 +20,7 @@ class HexGrid:
         for _ in range(rows):
             self.grid.append([0] * cols)
 
-    def grow_chunk1(self, terrain_type, num):
-        startx = random.randint(3, self.rows-3)
-        starty = random.randint(3, self.cols-3)
-
-        retx = startx
-        rety = starty
-
-        currx = startx
-        curry = starty
-        self.grid[currx][curry] = terrain_type
-
-        for i in range(num-1):
-            painted = False
-            while not painted:
-                direction = random.randint(1, 6) 
-                currx, curry = self.get_neighbor(currx, curry, direction)
-                
-                if currx < 0 or curry < 0 or currx >= self.rows-1 or curry >= self.cols-1:
-                    continue
-
-                if self.grid[currx][curry] == SEA:
-                    painted = True
-                    self.grid[currx][curry] = terrain_type
-
-        
-        return retx, rety
-
-    def grow_chunk2(self, terrain_type, num):
+    def grow_chunk(self, terrain_type, num):
         startx = random.randint(3, self.rows-3)
         starty = random.randint(3, self.cols-3)
 
@@ -102,9 +63,35 @@ class HexGrid:
             if breaking > 1000:
                 break
 
-        print(f"Chunks drawn {i} of {num}")
+        print(f"Chunks drawn: {i} of {num}")
         return ret
 
+    def grow_chunk_alternative(self, terrain_type, num):
+        startx = random.randint(3, self.rows-3)
+        starty = random.randint(3, self.cols-3)
+
+        retx = startx
+        rety = starty
+
+        currx = startx
+        curry = starty
+        self.grid[currx][curry] = terrain_type
+
+        for i in range(num-1):
+            painted = False
+            while not painted:
+                direction = random.randint(1, 6) 
+                currx, curry = self.get_neighbor(currx, curry, direction)
+                
+                if currx < 0 or curry < 0 or currx >= self.rows-1 or curry >= self.cols-1:
+                    continue
+
+                if self.grid[currx][curry] == SEA:
+                    painted = True
+                    self.grid[currx][curry] = terrain_type
+
+        
+        return retx, rety
 
     def get_neighbor(self, x, y, direction):
         match direction:
@@ -152,31 +139,13 @@ class HexGrid:
             return False
         except IndexError:
             return True
-        
+  
     def print(self):
-        for i in range(self.rows):
-            delimiter = " " if i%2 == 0 else ""
-            row = ' '.join([str(x) for x in self.grid[i]])
-            print(f"{delimiter}{row}")
-                
-    def print2(self):
         for y in range(self.cols):
             row = []
             for x in range(self.rows):
                 row.append(self.grid[x][y])
             
-            delimiter = " " if y%2 == 0 else ""
-            rowstr = ' '.join([str(b) for b in row])
-            print(f"{delimiter}{rowstr}")
-                    
-
-def main():
-    grid = HexGrid()
-    grid.grow_chunk2(60)
-    # grid.add_country(10)
-    print("===============================")
-    grid.print2()
-
-
-if __name__ == "__main__":
-    main()
+            prefix = " " if y%2 == 0 else ""
+            rowstr = ' '.join(["{:>3}".format(b) for b in row])
+            print(f"{prefix}{rowstr}")
