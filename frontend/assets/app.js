@@ -154,3 +154,83 @@ function printCountryInfo(countries) {
         area.insertAdjacentHTML('beforeend', `<p class="dot">*</p>`);
     }
 }
+
+
+function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+  }
+
+/**
+ * Currently this fakes animations.
+ * 
+ * @param {*} lables 
+ */
+function playAnimations(lables) {
+        let waitFor = getRandomInt(5) + 3;
+        setTimeout(() => {
+            var label = lables[getRandomInt(lables.length)];
+            playAnimation("01", label.y*tileWidth*0.75, label.x*tileHeight*0.83, false);
+            playAnimations(lables);
+        }, waitFor*1000);
+}
+
+function playAnimation(id, x, y, loop) {
+    let mapCoordinates = document.getElementById("map").getBoundingClientRect()
+
+    let canvas = document.createElement('canvas');
+    canvas.id = "animation" + id;
+    canvas.className = "animation";
+    canvas.width = 96;
+    canvas.height = 128;
+    canvas.style.left = (mapCoordinates.left + x) + "px";
+    canvas.style.top = y + "px";
+
+    var body = document.getElementById("canvasWrapper");
+    body.appendChild(canvas);
+
+    var context = canvas.getContext("2d");
+     
+    var myImage = new Image();
+    myImage.src = `assets/animations/animation${id}.png`;
+    myImage.addEventListener("load", loadImage, false);
+     
+    function loadImage(e) {
+      animate();
+    }
+     
+    let shift = 0;
+    let frameWidth = 96;
+    let frameHeight = 128;
+    let totalFrames = 16;
+    let currentFrame = 0;
+     
+    let frame = 0;
+    let frameLimit = 15;
+    
+    function animate() {
+        frame++;
+
+        if (frame % frameLimit === 0) {               
+            context.clearRect(0, 0, frameWidth, frameHeight);    
+            context.drawImage(
+                myImage, 
+                shift, 0, frameWidth, frameHeight,
+                0, 0, frameWidth*2, frameHeight*2
+            );
+            
+            shift += frameWidth + 1;
+            
+            /*
+                Start at the beginning once you've reached the
+                end of your sprite!
+            */
+            if (loop && currentFrame == totalFrames) {
+                shift = 0;
+                currentFrame = 0;
+            }
+            
+            currentFrame++;
+        }
+        requestAnimationFrame(animate);
+    }
+}

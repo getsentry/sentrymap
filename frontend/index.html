@@ -21,11 +21,21 @@
             text-align: center;
             margin: 2rem 0 2rem 0;
         }
-        canvas {
+        #canvasWrapper {
+            position: relative;
+        }
+        canvas#map {
             display: block; 
             margin: 0 auto; 
             max-width: 1920px;
             width: 100%;
+            z-index: 0;
+        }
+        canvas.animation {
+            position: absolute;
+            z-index: 1;
+            left: 500px;
+            top: 0px;
         }
         h1 {
             font-size: 3rem;
@@ -40,7 +50,8 @@
             margin: 0;
         }
         a, a:visited, a:active {
-            color: #FF9800;
+            /* color: #FF9800; */
+            color: #FECE66;
         }
         #countryInfoArea {
             margin: 1rem 0 0 0;
@@ -68,7 +79,7 @@
             margin: 1rem auto;
         }
     </style>
-    <script src="assets/app.js?9"></script>
+    <script src="assets/app.js?10"></script>
     <script type="text/javascript">
         const main = function() {
             window.stuff = {};
@@ -86,10 +97,9 @@
             canvas.id = "map";
             canvas.width = 1920;
             canvas.height = 1080;
-            canvas.style.zIndex = 8;
 
             // Put canvas on page
-            var body = document.getElementById("mapArea");
+            var body = document.getElementById("canvasWrapper");
             body.appendChild(canvas);
 
             // Fetch map data from server
@@ -101,6 +111,7 @@
                     drawTileMapFlatTop(content.grid);
                     drawLables(content.labels);
                     printCountryInfo(content.country_info);
+                    playAnimations(content.labels);
                 })
                 .catch(err => { throw err });
         };
@@ -111,7 +122,9 @@
         <h1>The World</h1>
         <span>According to Sentry</span>
     </div>
-    <div id="mapArea"></div>
+    <div id="mapArea">
+        <div id="canvasWrapper"></div>
+    </div>
     <div id="countryInfoArea"></div>
     <div id="footer">
         Sentry Hackweek 2023 &bull; <a href="https://github.com/antonpirker" target="_blank">Anton Pirker</a>
