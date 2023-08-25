@@ -20,7 +20,7 @@ This will:
 - create a virtual environment, 
 - install all the depencencies, 
 - start `redis-server`
-- Run the backend on `http://localhost:8000/`
+- Run the backend on [http://localhost:8000/](http://localhost:8000/)
 
 ### Prerequisites
 
@@ -32,9 +32,9 @@ You also need to set a GitHub access token in an environment variable called `GI
 
 When the backend starts it will read all data from GitHub and will cache it in redis. 
 
-To clear the cache call this URL: `http;//localhost:8000/clear-cache`. (This then needs a restart of the backend to load new data.)
+To clear the cache call this URL: [http;//localhost:8000/clear-cache](http;//localhost:8000/clear-cache). (This then needs a restart of the backend to load new data.)
 
-To refresh the cach call this URL: `http;//localhost:8000/reload-data`. This will clear the cache and read all the data again from GitHub. Depending on the size of your organization this will take quite some time and the backend will eventually run into a timeout.
+To refresh the cach call this URL: [http;//localhost:8000/reload-data](http;//localhost:8000/reload-data). This will clear the cache and read all the data again from GitHub. Depending on the size of your organization this will take quite some time and the backend will eventually run into a timeout.
 
 ## Frontend
 
@@ -48,7 +48,7 @@ cd frontend
 ```
 
 This will: 
-- Start a simple Python http server on `http://localhost:9000/`
+- Start a simple Python http server on [http://localhost:9000/](http://localhost:9000/)
 - Load the frontend 
 
 ### Prerequisites
