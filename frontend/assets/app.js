@@ -156,9 +156,17 @@ function printCountryInfo(countries) {
 }
 
 
+function drawCramer() {
+    let ctx = document.getElementById("map").getContext('2d');
+    ctx.drawImage(
+        window.stuff["cramer"], 
+        50, 960,
+    );
+}
+
 function getRandomInt(max) {
     return Math.floor(Math.random() * max);
-  }
+}
 
 /**
  * Currently this fakes animations.

@@ -92,6 +92,10 @@
             tileset2.src = "assets/tilesets_b/decor.png";
             window.stuff["tileset_decor"] = tileset2;
 
+            var cramer = new Image();
+            cramer.src = "assets/cramer.png";
+            window.stuff["cramer"] = cramer;
+
             // Create Canvas
             var canvas = document.createElement('canvas');
             canvas.id = "map";
@@ -110,8 +114,10 @@
                 .then(content => {
                     drawTileMapFlatTop(content.grid);
                     drawLables(content.labels);
+                    drawCramer();
                     printCountryInfo(content.country_info);
                     playAnimations(content.labels);
+
                 })
                 .catch(err => { throw err });
         };
