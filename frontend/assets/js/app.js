@@ -84,6 +84,7 @@ function drawTileMap(data) {
     }
 }
 
+
 function drawTileMapFlatTop(data) {
     marginX = tileWidth/4;
     marginY = -5;
@@ -120,6 +121,7 @@ function drawLabel(mapId, text, x, y){
 
     ctx.fillText(text, x*0.75*tileWidth, y*0.83*tileHeight);
 }
+
 
 function drawLables(labels) {
     for (let i = 0; i < labels.length; i++) {
@@ -164,14 +166,15 @@ function drawCramer() {
     );
 }
 
+
 function getRandomInt(max) {
     return Math.floor(Math.random() * max);
 }
 
+
 /**
  * Currently this fakes animations.
- * 
- * @param {*} lables 
+ * In the future this should be changed so that merged pull requests trigger an animation.
  */
 function playAnimations(lables) {
         let waitFor = getRandomInt(2) + 1;
@@ -181,6 +184,7 @@ function playAnimations(lables) {
             playAnimations(lables);
         }, waitFor*1000);
 }
+
 
 function playAnimation(id, x, y, loop) {
     let mapCoordinates = document.getElementById("map").getBoundingClientRect()
