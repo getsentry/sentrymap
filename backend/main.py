@@ -1,4 +1,5 @@
 import json
+import os
 import random
 
 from fastapi import FastAPI, Request
@@ -104,14 +105,18 @@ START_TILE = {
 
 @app.get("/clear-cache")
 async def home(request: Request):
-    r = redis.Redis(host="localhost", port=6379, decode_responses=True)
+    REDIS_HOST = os.environ.get("REDIS_HOST", "localhost")
+    REDIS_PORT = os.environ.get("REDIS_PORT", 6379)
+    r = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, decode_responses=True)
     r.delete("repositories")
     return {"status": "ok"}
 
 
 @app.get("/reload-data")
 async def home(request: Request):
-    r = redis.Redis(host="localhost", port=6379, decode_responses=True)
+    REDIS_HOST = os.environ.get("REDIS_HOST", "localhost")
+    REDIS_PORT = os.environ.get("REDIS_PORT", 6379)
+    r = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, decode_responses=True)
     r.delete("repositories")
     load_data()
     return {"status": "ok"}
@@ -119,7 +124,9 @@ async def home(request: Request):
 
 @app.get("/")
 async def home(request: Request):
-    r = redis.Redis(host="localhost", port=6379, decode_responses=True)
+    REDIS_HOST = os.environ.get("REDIS_HOST", "localhost")
+    REDIS_PORT = os.environ.get("REDIS_PORT", 6379)
+    r = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, decode_responses=True)
 
     # On startup the data is saved in redis
     repos = []
