@@ -15,10 +15,12 @@ from utils import normalize_countries
 
 app = FastAPI(debug=True)
 
+FRONTEND_URL = os.environ.get("FRONTEND_URL", "http://localhost:9000")
+
 origins = [
     "http://localhost",
     "http://localhost:8000",
-    "http://localhost:9000",
+    FRONTEND_URL,
 ]
 
 app.add_middleware(
